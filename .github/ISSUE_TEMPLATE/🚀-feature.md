@@ -1,7 +1,7 @@
 ---
 name: "\U0001F680 Feature"
 about: 새로운 기능 추가 및 수정
-title: "[✨Feature] "
+title: "[Feature] "
 labels: "\U0001F680 Feature"
 assignees: dainnida
 

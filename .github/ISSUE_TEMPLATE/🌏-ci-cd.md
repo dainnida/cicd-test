@@ -1,7 +1,7 @@
 ---
 name: "\U0001F30F CI/CD"
 about: 배포 관련 작업
-title: ''
+title: "[CI/CD] "
 labels: "\U0001F30F Deploy"
 assignees: dainnida
 

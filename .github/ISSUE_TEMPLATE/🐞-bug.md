@@ -1,7 +1,7 @@
 ---
-name: "\U0001F41EBug"
+name: "\U0001F41E Bug"
 about: 버그 발생 시 해결
-title: ''
+title: "[Bug] "
 labels: "\U0001F41E Bug"
 assignees: dainnida
 
