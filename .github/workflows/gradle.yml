@@ -31,6 +31,16 @@ jobs:
         java-version: '17'
         distribution: 'temurin'
 
+    # yml 파일의 환경변수 설정
+    - name: Set yml file 
+      uses: microsoft/variable-substitution@v1
+      with:
+        files: ./src/main/resources/application.yml
+      env:
+        spring.datasource.url: ${{ secrets.DB_MYSQL_URL }} 
+        spring.datasource.username: ${{ secrets.DB_MYSQL_USERNAME }} 
+        spring.datasource.password: ${{ secrets.DB_MYSQL_PASSWORD }} 
+
     # 실행 속도 향상을 위한 Gradle 종속성 캐싱
     - name: Setup Gradle
       uses: gradle/actions/setup-gradle@af1da67850ed9a4cedd57bfd976089dd991e2582 # v4.0.0
@@ -41,8 +51,4 @@ jobs:
 
     # Spring Boot 애플리케이션 빌드
     - name: Build with Gradle Wrapper
-      env:
-        DB_MYSQL_URL: ${DB_MYSQL_URL}
-        DB_MYSQL_USERNAME: ${DB_MYSQL_USERNAME}
-        DB_MYSQL_PASSWORD: ${DB_MYSQL_PASSWORD}
       run: ./gradlew build
