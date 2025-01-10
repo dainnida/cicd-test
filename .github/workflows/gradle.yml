@@ -52,3 +52,18 @@ jobs:
     # Spring Boot 애플리케이션 빌드
     - name: Build with Gradle Wrapper
       run: ./gradlew build
+
+    # Docker 이미지 빌드
+    - name: docker image build
+      run: docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/cicd-test .
+
+    # DockerHub 로그인
+    - name: docker login
+      uses: docker/login-action@v2
+      with:
+        username: ${{ secrets.DOCKERHUB_USERNAME }}
+        password: ${{ secrets.DOCKERHUB_PASSWORD }}
+
+    # DockerHub 이미지 푸시
+    - name: docker Hub push
+      run: docker push ${{ secrets.DOCKERHUB_USERNAME }}/cicd-test
