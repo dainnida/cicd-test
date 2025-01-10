@@ -1,11 +1,4 @@
-# This workflow uses actions that are not certified by GitHub.
-# They are provided by a third-party and are governed by
-# separate terms of service, privacy policy, and support
-# documentation.
-# This workflow will build a Java project with Gradle and cache/restore any dependencies to improve the workflow execution time
-# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-java-with-gradle
-
-name: Java CI with Gradle
+name: Java CI/CD with Gradle
 
 on:
   push:
@@ -67,3 +60,23 @@ jobs:
     # DockerHub 이미지 푸시
     - name: docker Hub push
       run: docker push ${{ secrets.DOCKERHUB_USERNAME }}/cicd-test
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+    # DockerH포
+      - name: Deploy to EC2
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USERNAME }}
+          key: ${{ secrets.EC2_SSH_KEY }}
+          script: |
+            docker pull ${{ secrets.DOCKERHUB_USERNAME }}/cicd-test
+            docker stop $(docker ps -q) || true
+            docker rm $(docker ps -a -q) || true
+            # 사용하지 않는 이미지 정리
+            docker image prune -f
+            docker run -d -p 8080:8080 ${{ secrets.DOCKERHUB_USERNAME }}/cicd-test
