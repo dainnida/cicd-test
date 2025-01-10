@@ -8,6 +8,6 @@ public class TestController {
 
     @GetMapping("/")
     public String home() {
-        return "Hello! CICD with Docker is completed";
+        return "Hello! CICD with Docker is completed~~!!!";
     }
 }
